@@ -1,0 +1,174 @@
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<style>
+
+	body {
+		width: 100%;
+		height: 100%;
+		position: relative;
+		margin: 0;
+		padding: 10px;
+		box-sizing: border-box;
+		font-family: 'PT Sans', 'Helvetica', 'Arial', sans-serif;
+	}
+	h1, h2, div, ul, li, p, span, a {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+	.pamm-widget-wrap {
+		position: relative;
+		display: block;
+		width: 280px;
+		height: 575px;
+		background: #525961;
+		color: #525961;
+		border-radius: 8px 8px;
+		font-size: 13px;
+		line-height: 16px;
+	}
+	.pamm-widget-header {
+		position: relative;
+		width: 280px;
+		height: 47px;
+		background: #f7b96c;
+		border-radius: 8px 8px 0 0;
+		text-align: center;
+	}
+	.pamm-widget-header_pamm {
+		font-size: 14px;
+		padding-top: 7px;
+	}
+	.pamm-widget-header_name {
+		font-size: 18px;
+		font-weight: bold;
+	}
+	.pamm-widget-graph {
+		position: relative;
+		width: 280px;
+		height: 196px;
+		margin: 0 auto;
+	}
+	.pamm-widget-graph_header {
+		display: block;
+		font-size: 14px;
+		padding-top: 16px;
+		height: 24px;
+		color: white;
+		text-align: center;
+		background:rgba(255, 255, 255, 0.1);
+	}
+	.pamm-widget-balans {
+		position: relative;
+		width: 280px;
+		height: 300px;
+		top: 41px;
+		margin: 0 auto;
+		padding-top: 18px;
+		box-shadow: 0 -1px 0 #6d767d;
+		font-size: 15px;
+		color: white;
+	}
+	.pamm-widget-balans_left_row {
+		width: 66,666666666666666666666666666667%;
+		height: 81px;
+		padding-left: 12px;
+		line-height: 31px;
+		float: left;
+	}
+	.pamm-widget-balans_right_row {
+		width: 33,333333333333333333333333333333%;
+		padding-right: 12px;
+		margin-top: -7px;
+		line-height: 36px;
+		height: 81px;
+		float: right;
+		text-align: right;
+		font-weight: bold;
+	}
+	.pamm-widget-balans_left_row_drawdown {
+		line-height: 16px;
+	}
+	.pamm-widget-balans_investirovat {
+		position: absolute;
+		width: 212px;
+		height: 27px;	
+		top: 135px;
+		border-radius: 4px;
+		border: none;
+		left: 50%;
+		padding-top: 13px;
+		margin-left: -106px;
+		color: white;
+		font-size: 20px;
+		cursor: pointer;
+	}
+	.pamm-widget-b_btn {
+	    background: #ff9c00;
+	    background: -moz-linear-gradient(top,  #ff9c00 0%, #ff8200 100%);
+	    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ff9c00), color-stop(100%,#ff8200));
+	    background: -webkit-linear-gradient(top,  #ff9c00 0%,#ff8200 100%);
+	    background: -o-linear-gradient(top,  #ff9c00 0%,#ff8200 100%);
+	    background: -ms-linear-gradient(top,  #ff9c00 0%,#ff8200 100%);
+	    background: linear-gradient(to bottom,  #ff9c00 0%,#ff8200 100%);
+	    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff9c00', endColorstr='#ff8200',GradientType=0 );
+	    text-decoration: none;
+	    font-weight: bold;
+	    text-align: center;
+	    border: 1px solid #f27f22;
+	    -webkit-border-radius: 6px;
+	    border-radius: 6px;
+	    -webkit-box-shadow: 0 2px 3px 0 rgba(0,0,0,.3);
+	    box-shadow: 0 2px 3px 0 rgba(0,0,0,.3);
+	}
+	@-webkit-keyframes orangePulse {
+		from { -webkit-box-shadow: 0 0 9px #444; }
+		50% { -webkit-box-shadow: 0 0 25px #ff6000; }
+		to { -webkit-box-shadow: 0 0 9px #333; }
+	}
+	.pamm-widget-b_btn:hover {
+		-webkit-animation-name: orangePulse;
+		-webkit-animation-duration: 2s;
+		-webkit-animation-iteration-count: infinite;
+	}
+	.pamm-widget-logo_footer {
+		position: absolute;
+		display: block;
+		width: 90px;
+		height: 66px;
+		top: 483px;
+		left: 50%;
+		margin-left: -45px;
+		background: url('https://aforex.s3.amazonaws.com/pamm-widget/dark-300-600/90-66white.png');
+		z-index: 100;
+	}
+	.pamm-widget-balans_left_row_profit {
+		line-height: 16px;
+	}
+</style>
+<div class="pamm-widget-wrap">
+	<div class="pamm-widget-header">
+		<p class="pamm-widget-header_pamm">ПАММ-ПОРТФЕЛЬ</p>
+		<p class="pamm-widget-header_name" id="pamm-widget-name"> </p>
+	</div>
+	<div class="pamm-widget-graph_wrapper">
+		<div class="pamm-widget-graph">
+			<p class="pamm-widget-graph_header">График доходности</p>
+			<div id="pamm-widget-profits_graph_container" class="pamm-widget-graph"></div>
+		</div>
+	</div>
+	<div class="pamm-widget-balans">
+		<div class="pamm-widget-balans_left_row">
+			<p class="pamm-widget-balans_left_row_drawdown">Максимальная </br>просадка</p>
+			<p class="pamm-widget-balans_left_row_yield">Общая доходность</p>
+			<p class="pamm-widget-balans_left_row_profit">Средняя доходность за</br>месяц</p>
+		</div>
+		<div class="pamm-widget-balans_right_row"> 
+			<p class="pamm-widget-balans_right_row_drawdown" id="pamm-widget-max_drawdown"> </p>
+			<p class="pamm-widget-balans_right_row_yield" id="pamm-widget-general_profit"> </p>
+			<p class="pamm-widget-balans_right_row_yield" id="pamm-widget-yield_one_month"> </p>
+		</div>
+		<a id="pamm-widget-button" class="pamm-widget-balans_investirovat pamm-widget-b_btn">ИНВЕСТИРОВАТЬ</a>
+	</div>
+	<div class="pamm-widget-logo_footer"></div>
+</div>

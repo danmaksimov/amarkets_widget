@@ -1,0 +1,218 @@
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<style>
+	body {
+		width: 100%;
+		height: 100%;
+		position: relative;
+		margin: 0px;
+		padding: 0px;
+		box-sizing: border-box;
+		font-family: 'PT Sans', 'Helvetica', 'Arial', sans-serif;
+	}
+	h1, h2, div, ul, li, p, span, a {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+	.pamm-widget-wrap {
+		position: relative;
+		display: block;
+		width: 220px;
+		height: 380px;
+		background: #525961;
+		color: #525961;
+		border-radius: 6px 6px;
+		font-size: 13px;
+		line-height: 16px;
+	}
+	.pamm-widget-header {
+		position: relative;
+		width: 220px;
+		height: 38px;
+		background: #f7b96c;
+		border-radius: 4px 4px 0 0;
+		box-sizing: border-box;
+		text-align: center;
+	}
+	.pamm-widget-header_pamm {
+		font-size: 13px;
+		padding-top: 3px;
+	}
+	.pamm-widget-header_name {
+		font-size: 16px;
+		font-weight: bold;
+		/*margin-top: -3px;*/
+
+	}
+	.pamm-widget-graph {
+		position: relative;
+		width: 220px;
+		height: 122px;
+		margin: 0 auto;
+	}
+	.pamm-widget-graph_header {
+		display: block;
+		font-size: 13px;
+		padding: 8px 0 10px 0;
+		height: 10px;
+		color: white;
+		text-align: center;
+		background:rgba(255, 255, 255, 0.1);
+	}
+	.pamm-widget-graph_value, .pamm-widget-graph_value_mounth {
+		position: absolute;
+		color: white;
+		font-size: 12px;
+	}
+	.pamm-widget-graph_value {
+		margin-left: 7px;
+		text-align: center;
+	}
+	.pamm-widget-graph_value_one {
+		margin-top: 6px;
+	}
+	.pamm-widget-graph_value_two {
+		margin-top: 28px;
+	}
+	.pamm-widget-graph_value_three {
+		margin-top: 30px;
+	}
+	.pamm-widget-graph_value_mounth {
+		position: relative;
+		color: white;
+		width: 220px;
+		height: 15px;
+		float: right;
+		margin-right: -16px;
+		top: 102px;
+	}
+	.pamm-widget-graph_value_mounth_one, .pamm-widget-graph_value_mounth_two, .pamm-widget-graph_value_mounth_three {
+		float: left;
+		margin-left: 30px;
+	}
+	.pamm-widget-balans {
+		position: absolute;
+		width: 220px;
+		height: 198px;
+		top: 189px;
+		margin: 0 auto;
+		padding-top: 10px;
+		box-shadow: 0 -1px 0 #6d767d;
+		font-size: 13px;
+		color: white;
+	}
+	.pamm-widget-balans_left_row {
+		width: 66,666666666666666666666666666667%;
+		height: 81px;
+		padding-left: 11px;
+		float: left;
+		text-align: left ;
+	}
+	.pamm-widget-balans_right_row {
+		width: 33,333333333333333333333333333333%;
+		padding-right: 11px;
+		height: 81px;
+		float: right;
+		font-weight: bold;
+		text-align: right;
+	}
+	.pamm-widget-balans_investirovat {
+		position: relative;
+		width: 175px;
+		height: 30px;
+		top: 107px;
+		right: 22px;
+		margin: 0 auto;
+		border-radius: 4px;
+		border: none;
+		color: white;
+		font-size: 16px;
+		cursor: pointer;
+		float: right;
+	}
+
+	.pamm-widget-b_btn {
+	  background: #ff9c00;
+	  background: -moz-linear-gradient(top,  #ff9c00 0%, #ff8200 100%);
+	  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ff9c00), color-stop(100%,#ff8200));
+	  background: -webkit-linear-gradient(top,  #ff9c00 0%,#ff8200 100%);
+	  background: -o-linear-gradient(top,  #ff9c00 0%,#ff8200 100%);
+	  background: -ms-linear-gradient(top,  #ff9c00 0%,#ff8200 100%);
+	  background: linear-gradient(to bottom,  #ff9c00 0%,#ff8200 100%);
+	  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff9c00', endColorstr='#ff8200',GradientType=0 );
+	  text-decoration: none;
+	  font-weight: bold;
+	  text-align: center;
+	  border: 1px solid #f27f22;
+	  -webkit-border-radius: 4px;
+	  border-radius: 4px;
+	  -webkit-box-shadow: 0 2px 3px 0 rgba(0,0,0,.3);
+	  box-shadow: 0 2px 3px 0 rgba(0,0,0,.3);
+	}
+	@-webkit-keyframes orangePulse {
+		from { -webkit-box-shadow: 0 0 9px #444; }
+		50% { -webkit-box-shadow: 0 0 25px #ff6000; }
+		to { -webkit-box-shadow: 0 0 9px #333; }
+	}
+	.pamm-widget-b_btn:hover {
+		-webkit-animation-name: orangePulse;
+		-webkit-animation-duration: 2s;
+		-webkit-animation-iteration-count: infinite;
+	}
+	.pamm-widget-logo_footer {
+		position: absolute;
+		display: block;
+		width: 70px;
+		height: 50px;
+		top: 320px;
+		left: 50%;
+		margin-left: -35px;
+		background: url('https://aforex.s3.amazonaws.com/pamm-widget/dark-240-400/50-70white.png');
+		z-index: 100;
+	}
+	.pamm-widget-balans_left_row_profit {
+	  line-height: 13px;
+	}
+	.pamm-widget-balans_left_row_drawdown {
+	  line-height: 13px;
+	}
+	.pamm-widget-balans_left_row {
+		line-height: 15px;
+	}
+	.pamm-widget-balans_right_row {
+		line-height: 24px;
+		margin-top: -2px;
+	}
+	.pamm-widget-balans_right_row > p {
+		line-height: 23px;
+	}
+</style>
+<div class="pamm-widget-wrap">
+	<div class="pamm-widget-header">
+		<p class="pamm-widget-header_pamm">ПАММ-ПОРТФЕЛЬ</p>
+		<p class="pamm-widget-header_name" id="pamm-widget-name"> </p>
+	</div>
+	<div class="pamm-widget-graph_wrapper">
+		<div class="pamm-widget-graph">
+			<p class="pamm-widget-graph_header">График доходности</p>
+			<div id="pamm-widget-profits_graph_container" class="pamm-widget-graph"></div>
+		</div>
+	</div>
+	<br>
+	<div class="pamm-widget-balans">
+		<div class="pamm-widget-balans_left_row">
+			<p class="pamm-widget-balans_left_row_drawdown">Максимальная </br>просадка</p>
+			<p class="pamm-widget-balans_left_row_yield">Общая доходность</p>
+			<p class="pamm-widget-balans_left_row_profit">Средняя доходность</br>за месяц</p>
+		</div>
+		<div class="pamm-widget-balans_right_row"> 
+			<p class="pamm-widget-balans_right_row_drawdown" id="pamm-widget-max_drawdown"> </p>
+			<p class="pamm-widget-balans_right_row_yield" id="pamm-widget-general_profit"> </p>
+			<p class="pamm-widget-balans_right_row_yield" id="pamm-widget-yield_one_month"> </p>
+		</div>
+		<div class="c-clear"></div>	
+	</div>
+	<button id="pamm-widget-button" class="pamm-widget-balans_investirovat pamm-widget-b_btn">ИНВЕСТИРОВАТЬ</button>
+	<div class="pamm-widget-logo_footer"></div>
+</div>

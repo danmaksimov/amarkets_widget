@@ -1,0 +1,200 @@
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<style>
+  body {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    font-family: 'PT Sans', 'Helvetica', 'Arial', sans-serif;
+  }
+  h1, h2, div, ul, li, p, span, a {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .pamm-widget-wrap {
+    position: relative;
+    display: block;
+    width: 300px;
+    height: 600px;
+    background: url('https://aforex.s3.amazonaws.com/pamm-widget/blue-300-600/background.png');
+    font-size: 13px;
+    line-height: 16px;
+  }
+  .pamm-widget-header {
+    position: relative;
+    width: 280px;
+    height: 46px;
+    background: #a8d7e0;
+    border-radius: 4px 4px 0 0;
+    margin: 0 10px 0 10px;
+    top: 13px;
+    text-align: center;
+  }
+  .pamm-widget-header_pamm {
+    font-size: 15px;
+    padding-top: 4px;
+  }
+  .pamm-widget-header_name {
+    font-size: 17px;
+    font-weight: bold;
+    margin-top: 1px;
+  }
+  .pamm-widget-graph_wrapper {
+    padding-top: 8px;
+    height: 122px;
+  }
+  .pamm-widget-graph {
+    position: relative;
+    display: block;
+    width: 279px;
+    height: 170px;
+    margin: 0 auto;
+  }
+  .pamm-widget-graph_header {
+    font-size: 17px;
+    padding-top: 19px;
+    height: 27px;
+    color: white;
+    text-align: center;
+    background:rgba(255, 255, 255, 0.1);
+  }
+  .pamm-widget-graph_value, .graph_value_mounth {
+    position: absolute;
+    color: white;
+  }
+  .pamm-widget-graph_value {
+    margin-left: 5px;
+    text-align: center;
+  }
+  .pamm-widget-graph_value_one {
+    margin-top: 6px;
+  }
+  .pamm-widget-graph_value_two {
+    margin-top: 28px;
+  }
+  .pamm-widget-graph_value_three {
+    margin-top: 30px;
+  }
+  .pamm-widget-graph_value_mounth {
+    position: relative;
+    color: white;
+    width: 220px;
+    height: 15px;
+    float: right;
+    margin-right: 2px;
+  }
+  .pamm-widget-graph_value_mounth_one, .pamm-widget-graph_value_mounth_two, .pamm-widget-graph_value_mounth_three {
+    float: left;
+    margin-left: 38px;
+  }
+  .pamm-widget-balans {
+    position: relative;
+    width: 280px;
+    height: 147px;
+    top: 78px;
+    margin: 0 auto;
+    padding-top: 18px;
+    box-shadow: 0 -1px 0 #3eb4c9; 
+    font-size: 15px;
+    line-height: 35px;
+    color: white;
+    word-wrap: break-word;
+  }
+  .pamm-widget-balans_left_row {
+    width: 66,666666666666666666666666666667%;
+    height: 65px;
+    padding-left: 14px;
+    float: left;
+  }
+  .pamm-widget-balans_right_row {
+    width: 33,333333333333333333333333333333%;
+    padding-right: 14px;
+    height: 65px;
+    text-align: right;
+    float: right;
+  }
+  .pamm-widget-balans_investirovat {
+    position: absolute;
+    width: 210px;
+    height: 41px;
+    border-radius: 4px;
+    border: none;
+    top: 154px;
+    left: 50%;
+    margin-left: -105px;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+  }
+
+  .pamm-widget-b_btn {
+      background: #ff9c00;
+      background: -moz-linear-gradient(top,  #ff9c00 0%, #ff8200 100%);
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ff9c00), color-stop(100%,#ff8200));
+      background: -webkit-linear-gradient(top,  #ff9c00 0%,#ff8200 100%);
+      background: -o-linear-gradient(top,  #ff9c00 0%,#ff8200 100%);
+      background: -ms-linear-gradient(top,  #ff9c00 0%,#ff8200 100%);
+      background: linear-gradient(to bottom,  #ff9c00 0%,#ff8200 100%);
+      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff9c00', endColorstr='#ff8200',GradientType=0 );
+      text-decoration: none;
+      font-weight: bold;
+      text-align: center;
+      border: 1px solid #f27f22;
+      -webkit-border-radius: 4px;
+      border-radius: 4px;
+      -webkit-box-shadow: 0 2px 3px 0 rgba(0,0,0,.3);
+      box-shadow: 0 2px 3px 0 rgba(0,0,0,.3);
+  }
+  @-webkit-keyframes pammblue300600orangePulse {
+    from { -webkit-box-shadow: 0 0 9px #444; }
+    50% { -webkit-box-shadow: 0 0 25px #ff6000; }
+    to {  -webkit-box-shadow: 0 0 9px #333; }
+  }
+  .pamm-widget-b_btn:hover {
+    -webkit-animation-name: pammblue300600orangePulse;
+    -webkit-animation-duration: 2s;
+    -webkit-animation-iteration-count: infinite;
+  }
+  .pamm-widget-logo_footer {
+    position: absolute;
+    display: block;
+    width: 90px;
+    height: 66px;
+    top: 490px;
+    left: 50%;
+    margin-left: -45px;
+    background: url('https://aforex.s3.amazonaws.com/pamm-widget/blue-300-600/90-66white.png');
+    z-index: 100;
+  }
+</style>
+<div class="pamm-widget-wrap">
+  <div class="pamm-widget-header">
+    <p class="pamm-widget-header_pamm">ПАММ-СЧЕТ</p>
+    <p class="pamm-widget-header_name" id="pamm-widget-name"> </p>
+  </div>
+  <div class="pamm-widget-graph_wrapper">
+    <div class="pamm-widget-graph">
+      <p class="pamm-widget-graph_header">График доходности стратегии</p>
+      <div id="pamm-widget-profits_graph_container" class="pamm-widget-graph"></div>
+    </div>
+  </div>
+  <br>
+  <div class="pamm-widget-balans">
+    <div class="pamm-widget-balans_left_row">
+      <p class="pamm-widget-balans_left_row_balans">Баланс</p>
+      <p class="pamm-widget-balans_left_row_drawdown">Максимальная просадка</p>
+      <p class="pamm-widget-balans_left_row_yield">Общая доходность</p>
+    </div>
+    <div class="pamm-widget-balans_right_row"> 
+      <p class="pamm-widget-balans_right_row_balans" id="pamm-widget-balance"> </p>
+      
+      <p class="pamm-widget-balans_right_row_drawdown" id="pamm-widget-max_drawdown"> </p>
+      <p class="pamm-widget-balans_right_row_yield" id="pamm-widget-general_profit"> </p>
+    </div>
+    <a href="#" class="pamm-widget-balans_investirovat pamm-widget-b_btn" id="pamm-widget-button">ИНВЕСТИРОВАТЬ</a>
+  </div>
+  <div class="pamm-widget-logo_footer"></div>
+</div>
